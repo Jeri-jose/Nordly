@@ -1,2 +1,14 @@
- <a href="{% url 'home' %}"> Nordly_logo</a>
+{% load static %}
+ <a href="{% url 'home' %}"> Nordly logo</a>
+ <img  src="{% static 'templates/thumbnails/logo.jpeg' %}"  alt="">
+
+ <form method="GET" action="">
+    <input type="text" name= 'q',  placeholder="Search Disease, topic & Dr.s">
+</form>
+{% if request.user.is_authenticated %}
+    <p>hello {{request.user}}</p>
+    <a href="{% url 'logout' %}">logout</a>
+{% else %}
+    <a href="{% url 'login' %}">login</a>
+{% endif %}
  <hr>
