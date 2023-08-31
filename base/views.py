@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 
 from django.db.models import Q
-from .models import *
+from .models import Room, Topic, Message
 from .forms import RoomForm
 # Create your views here.
 
@@ -68,16 +68,31 @@ def home(request):
                                Q(description__icontains =q)
                                 )
     topics= Topic.objects.all()
-
+    roomcounts= rooms.count()
     context= {'rooms':rooms,
-              'topics': topics    
+              'topics': topics,
+              'roomcount': roomcounts  
             }
     return render(request,'base/home.html', context)
 
 def room(request,pk):
-    
     room= Room.objects.get(id= pk)
-    context= {'room':room}
+    room_message= room.message_set.all().order_by('-created')
+    participants= room.participants.all()
+    
+    if request.method == 'POST':
+        message= Message.objects.create(
+                user= request.user,
+                room= room,
+                body= request.POST.get('body')
+        )
+        return redirect ('room', pk= room.id )
+    room.participants.add(request.user)
+
+    context= {'room':room,
+              'room_message': room_message,
+              'participants': participants
+                }
     return render (request,'base/room.html', context)
 
 
@@ -119,5 +134,17 @@ def DeleteRoom(request, pk):
         room.delete()
         return redirect ('home')
     
-    context= {'room':room}
+    context= {'obj':room}
+    return render(request,'base/delete.html', context)
+
+
+def DeleteMessage(request, pk):
+    message= Message.objects.get(id=pk)
+    if request.user != message.user:
+        return HttpResponse('is not allowed tp delete')
+    if request.method =='POST':
+        room.delete()
+        return redirect ('home' )
+    
+    context= {'obj':message}
     return render(request,'base/delete.html', context)

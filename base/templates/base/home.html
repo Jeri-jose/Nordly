@@ -13,15 +13,20 @@
 <div class="home-container">
    
   <div class= 'topic'>
+    <h4>Browse Topics</h4>
+    <hr>
     <a href="{% url 'home' %}">all</a>
+    
     {% for topic in topics %}
       <div>
         <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}} </a>
+        
       </div>
     {% endfor %}
   </div>
   <div>
     <a href="{% url 'create-room' %}">Create</a>
+    <p>{{roomcount}} rooms available</p>
     {% for room in rooms %}
     <div>
       {% if request.user == room.host %}
