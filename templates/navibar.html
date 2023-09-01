@@ -1,9 +1,12 @@
+
 {% load static %}
- <a href="{% url 'home' %}"> Nordly logo</a>
+
+
+<a href="{% url 'home' %}"> <img class= "logo" src="{% static 'images/logo.jpeg' %}" > </a>
 
 
  <form method="GET" action="">
-    <input type="text" name= 'q',  placeholder="Search Disease, topic & Dr.s">
+    <input  class= "search"type="text" name= 'q',  placeholder="Search Disease, topic & Dr.s  ">
 </form>
 {% if request.user.is_authenticated %}
     <p>hello {{request.user}}</p>

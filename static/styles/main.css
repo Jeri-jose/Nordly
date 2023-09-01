@@ -1,0 +1,23 @@
+body{
+    background-color: aquamarine;
+
+}
+.logo{
+    border-radius: 40px;
+    width: 50px;
+    display: inline-block;
+}
+
+
+.search{
+    display: block;
+    font-size: 20px;
+    margin-left: 5px;
+    margin-bottom: 20px;
+    margin-left: 500px;
+    padding-right: 100px;
+    padding-left: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color:gray;
+}

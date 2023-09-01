@@ -120,13 +120,15 @@ def userProfile(request, pk):
             }
     return render(request,'base/profile.html', context)
 
-
+@login_required(login_url ='login')
 def CreateRoom(request):
     form= RoomForm()
     if request.method =='POST':
         form= RoomForm(request.POST)
         if form.is_valid():
-            form.save()
+            room= form.save(commit= False)
+            room.host= request.user
+            room.save()
             return redirect( 'home')
     context= {'form': form}
     return render(request, 'base/room_form.html', context)
