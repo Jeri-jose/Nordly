@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 
 from django.db.models import Q
@@ -103,6 +104,21 @@ def room(request,pk):
                 }
     return render (request,'base/room.html', context)
 
+
+
+
+def userProfile(request, pk):
+    user= User.objects.get(id= pk)
+    rooms= user.room_set.all()
+    room_message= user.message_set.all()
+    topics=Topic.objects.all()
+    #topics= user.topic_set.all()
+    context= {'user':user,
+               'rooms':rooms,
+               'room_message':room_message,
+               'topics':topics
+            }
+    return render(request,'base/profile.html', context)
 
 
 def CreateRoom(request):
